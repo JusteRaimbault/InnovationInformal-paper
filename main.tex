@@ -1,22 +1,229 @@
 \documentclass[letterpaper]{article}
 
 \usepackage{natbib,alifeconf} 
+\usepackage{amssymb}
 
-\title{}
+\title{Innovation and informal knowledge exchanges between firms}
 
 
 \begin{document}
 \maketitle
 
-\begin{abstract}
 % Abstract length should not exceed 250 words
-
+\begin{abstract}
+Firm clusters are seen as having a positive effect on innovations, what can be interpreted as economies of scale or knowledge spillovers. The processes underlying the success of these clusters remain difficult to isolate. We propose in this paper a stylised agent-based model to test the role of geographical proximity and informal knowledge exchanges between firms on the emergence of innovations. The model is run on synthetic firm clusters. Sensitivity analysis and systematic model exploration unveil a sharp transition of the role of distance on innovations, with a qualitative shift when spatial interactions are more intense. Model bi-objective optimisation shows a compromise between innovation and product diversity, suggesting trade-offs for clusters in practice. This model provides thus a first basis to systematically explore the interplay between firm cluster geography and innovation, from an evolutionary perspective.
 \end{abstract}
+
+% Innovation
+% Firm clusters
+% Informal knowledge flows
+% Biogeography evolution
 
 \section{Introduction}
 
+Innovation is a central process of evolution, from biological evolution to social, cultural \citep{mesoudi2018cumulative} and technological evolution \citep{sood2005technological}. Understanding the drivers of technological innovation is in that context crucial from a theoretical perspective for insights into evolutionary theories of social change and evolutionary economics among others, and from a practical perspective for sustainable planning and management of societies. Technological innovation may indeed be an essential aspect of transitions towards sustainability \citep{adams2016sustainability}, although it should not be their sole driver at the detriment of social change for example.
+
+Geographical proximity, or in practice the implementation of firm clusters, is thought to have a positive impact on innovation capabilities \citep{bittencourt2019cluster}. In that context, the role of local informal interactions between innovation agents has been suggested as important for breakthrough innovations by empirical and theoretical studies. In the context of firm cluster, \cite{gnyawali2013complementary} propose the intensity of social interaction as a key factor alongside cluster competition intensity to determine potential future innovations. Clusters are understood as enablers of tacit knowledge exchanges between inventors from different firms \citep{arikan2009interfirm}. Furthermore, the mobility of employees between firms in the same area may be a career of competences and tacit knowledge \citep{almeida1999localization}. Firms benefit from a stronger connection in local social networks \citep{kemeny2016economic}. The idea of firms as innovation incubators in which ideas evolve can be linked to a evolutionary approach to social systems which has been widely studied by the Artificial Life community \citep{marriott2018social}.
+
+From an evolutionary perspective, the concept of market niche has been used to explain technological change \citep{schot2007niches}. The firm in that context acts as the primary space where evolution of ideas occurs, and knowledge flows between firms can be understood in analogy with gene flows between isolated geographical areas in biological innovation. The transfer of concepts from biology to economic geography remains however valid only to a certain extent \citep{schamp2010notion}, and a precise definition of genomes, species, evolution and co-evolution in social systems is not straightforward \citep{raimbault2019modeling}. Regarding innovation, multiple scales from firms to cities can be for example considered \citep{raimbault2020model}. We choose here to focus on the microscopic scale of innovation ecosystems, more precisely how research and development employees of firms act as careers of ideas leading to the emergence of breakthrough innovations \citep{song2016innovation}.
+
+One privileged tool to study and simulate the emergence of innovations from this microscopic perspective are agent-based models (ABM). Various ABMs have been proposed for the diffusion of innovation \citep{kiesling2012agent}. \cite{lopolito2013emerging} combine knowledge exchange, expectations of agents and learning as core mechanisms to simulate innovation niches. \cite{dosi2021patents} introduce an ABM to investigate the role of patenting on the innovativity of firms competing on a set of submarkets, including consumer demand. \cite{chen2006functional} focus on functional modularity of products and use a genetic programming formalism to evolve technologies. \cite{ma2005agent} describe an ABM of technological change which takes into account both intrinsic fitness selection pressure and environment selection pressure, the latest being determined by the interaction with customers. The role of space is studied by \cite{vermeulen2018role} in a multi-level approach combining interregional knowledge networks and knowledge diversity within regions. Diverse aspects of firm clusters have been studied by means of ABMs, such as firm competitiveness, local networks, and policy-making, among others \citep{fioretti2005agent}.
+
+These previous modeling efforts however do not specifically tackle the particular question of informal knowledge flows within firm clusters. It remains still an important dimension, with implications in urban planning and concrete aspects of firm cluster implementation for example. We propose in this paper to study this issue by developing a stylised agent-based model of technological change within firm clusters. Following the approach of artificial societies \citep{epstein1997artificial}, we do not aim at providing a highly realistic nor data-driven model, but rather a simple tool to explore the interplay between basic mechanisms in the emergence of a macroscopic phenomenon (innovation within firms in our case). More precisely, our contribution relies on the following points: (i) we provide a simple ABM linking innovation within firms and informal knowledge flows within firm clusters, based on an evolutionary model for innovation and exhibiting a strong analogy with biogeography optimisation algorithms \citep{simon2008biogeography}; (ii) the model is implemented with a specific instance for the genotype-phenotype mapping, using a generalised Rastrigin function as synthetic fitness landscape; (iii) the model is systematically explored, using global sensitivity analysis and a genetic algorithm optimisation to unveil various patterns of innovation in firm clusters.
+
+The rest of this paper is organised as follows: we first describe and formalise the agent-based model; we then describe results of various numerical experiments; and finally discuss the implications of these results and diverse potential model developments and applications.
 
 
+\section{Agent-based model}
+
+% processes?
+% local exchange of ideas - employees as careers
+% inventor flow between firms? ~ - mechanism for breakthrough innov? -> need some kind of phenotype - just invention genome makes no sense: but how? quantify probas / characs of breakthrough in terms of class recombination? draw random distrib - depending on recombined genomes? -> assumption on fitness function ! - sensitivity analysis to the choice of fitness assumptions
+% evol of ideas within firms: evolution niches -> informal knowledge flow acts as migration between niches
+
+% complicated optim function - similar to rastrigin, or with larger pair degrees for components?
+% https://fr.wikipedia.org/wiki/Fonction_de_Rastrigin -> def around 0 -> genome in [-1 ; 1]
+
+\subsection{Rationale}
+
+The main structure of the model corresponds to a set of firms, each composed by a set of employees. An employee is represented by some ideas, and these are mixed through evolution crossover within firms, but also mutated at the scale of each individuals. Indeed, empirical evidence using patents as a proxy of innovation suggest that inventions are produced by the superposition of exploration (recombination of existing technologies, which would correspond to a crossover in the genome) and exploitation (small incremental changes to existing combinations, captured by a local gene mutation) processes \citep{youn2015invention}. 
+%Furthermore, invention novelty (defined as the deviation from the likelihood of the technological combination) predicts to some extent the invention impact in terms of patent citations \citep{kim2016technological}. % not needed, as not really captured in the model? (depends on the optimisation landscape)
+
+The main feature of the model is an additional crossover between firms, which captures the process of informal knowledge flows. In practice, employees of different firms in the same sector living in the same geographical area will share connections through social networks, meet intentionally or unintentionally, and share ideas. Although in many cases professional secrecy is strictly observed, a tension with sharing exists \citep{rouyre2019managing}, and informal knowledge is still exchanged, on non-sensitive subjects such as work or management practices, or technical but unrelated subjects for example. We model interactions between employees of different firms through spatial interaction modeling \citep{wilson1975some}, which has already been used to study innovation and knowledge spillovers \citep{lesage2007knowledge}. In practice, adding this geographical component makes our model closer to biogeography optimisation algorithms \citep{simon2008biogeography}.
+
+At the scale of intra-firm innovation, we need to introduce an evolution model. Therefore, it is necessary to specify a selection process linked to some mapping between the genotype of inventions and their phenotype, in other words a fitness function. \cite{ma2005agent} use a linear mapping obtained by applying a constant matrix to the genome, inspired from the model of \cite{kauffman1995technological}. The concept of fitness landscape is applied in different streams of complexity economics \citep{khraisha2020complex}. We choose to work with a similar heuristic, using a complicated fitness landscape obtained from the genome. Our model is in practice applicable with any optimisation landscape, but for the sake of simplicity we will work below with a generalised Rastrigin function which is a classical difficult optimisation problem used as a benchmark for optimisation algorithms.
+
+
+\subsection{Model description}
+
+The core element of the agent-based model are firms $f_k$ with $1 \leq k \leq N_f$. These are located in space by coordinates $(x_k,y_k) \in \mathbb{R}^2$. Each are composed by a set of employees $e_{ki}$ with $1 \leq i \leq S_k$ where $S_k$ is the size of the firm. In principle, number of firms, locations and sizes can take any value, but we will parametrise them with realistic values as detailed later. An employee is summarised by a set of ideas, captured by a real genome of fixed size: $e_{ki} = (x^{(ki)}_j) (t) \in \mathbb{R}^G$ where $G$ is the genome size. These will evolve as time step $t$ changes. We do not include more detailed employee characteristics such as home location, assuming that spatial interaction modeling captures microscopic interactions around firms. We also do not include competences or field, as the innovation model is a simple genetic algorithm without detailed economic structure. At a given time step, a firm is also characterised by its current product $p_k (t) = (p_{kj})(t)\in \mathbb{R}^G$ and the corresponding fitness value $y_k (t)$ (which can be interpreted as a societal value of the innovation, or as the turnover potential of the product for the firm, for example).
+
+Starting from an initial state at $t = 0$, the model proceeds iteratively to evolve and exchange ideas, and to innovate within firms, for a fixed number of time steps until final time $t_f$. At each time step, the following actions are taken in order.
+
+\begin{enumerate}
+    \item Ideas are exchanged within firms, corresponding to the core of the genetic algorithm capturing innovation. Each employee has a fixed probability $p_C$ of realising a crossover with an other one. Following a random draw, if this is realised, one other employee is selected at random, and the current employee copies a fixed share $s_C$ of the other genome (obtained in practice with a random draw of probability $s_C$ for each gene). The update is done synchronously so that no propagation can occur within one time step. The exchange is not symmetric (reflecting the asymmetry of idea exchanges in real life), but each employee gets to renew its ideas. Genomes are then mutated with a probability $p_M$ (at the gene level for all employees), and mutations correspond to a uniform random increment $m \in \left[ -x_M/2 ; x_M/2 \right]$ where $x_M$ is a parameter giving the amplitude of the mutation.
+    \item New ideas are tried by employees, in other words the fitness function $y$ is evaluated for each genome $y_{ki} = y(e_{ki})$. Within each company, the next product is selected as the one maximising the fitness: $p_k (t) = \textrm{argmax}_i y_{ki}$ and the corresponding fitness value is taken as $y_k (t)$. At this stage, the analogy with the genetic algorithm is slightly modified to reflect actual research processes within firms: a fixed share of employees $s_P$ of the firm is randomly chosen to work on the product during the next cycle, and thus update their genome as the product genome $e_{ik} = p_k$. This leads to a loss of diversity which may be detrimental to a genetic algorithm with the sole aim of optimisation, but this is not the purpose of our model which is to capture actual innovation processes in a stylised way.
+    \item Informal knowledge flows occur between firms, in practice being carried by local social networks of employees and their daily activities within the geographical area of the cluster. For pair of employees $(e_{i k_i}, e_{j k_j})$ of different firms $k_i,k_j$, a probability of interacting is given by
+    \[
+    p_{ij} = p_E \cdot \exp{ - d(k_i,k_j) / d_E}
+    \]
+    where $p_E$ is a parameter giving the local intensity of informal exchanges (which will capture for example the difference between a rural, periruban and urban cluster), $d(k_i,k_j)$ is the geographical distance between firms and $d_E$ is the characteristic distance of interactions. Taking the average on employees and aggregating by firms gives the expected number of interactions between firms as
+    \[
+    I_{kl} = S_k \cdot S_l \cdot \exp{ - d(k,l) / d_E}
+    \]
+    which corresponds to a classic spatial interaction model \citep{wilson1975some}. Two interacting employees will act as for the internal crossover: the first agent copies a random part of the genome using the $s_C$ parameter.
+\end{enumerate}
+
+
+\subsection{Model indicators}
+
+We study various aspect to quantify model dynamics and outcomes. First, innovation utility is measured through fitness values. At each time step, we consider (i) $b(t) = \max_k y_k (t)$ the best fitness value across all firms, and (ii) $\bar{f} (t)$ the average fitness value across firms. We then capture economic inequality between firms, both through the relative fitness difference $\Delta f$ between the best and the worst performing company, and with the entropy $\mathcal{E}_f$ of the distribution of fitness. Finally, we capture product diversity at the genotype level (which is complementary to previous inequality indicators at the phenotype level), using an average dissimilarity index obtained with cosine similarity:
+\[
+d(t) = \frac{1}{2 \cdot N_f \cdot (N_f - 1)} \sum_{k \neq l} \left(1 - \frac{p_k (t)\cdot p_l (t)}{\left||p_k (t)\right|| \cdot \left||p_l (t)\right||}\right)
+\]
+
+
+\subsection{Model setup}
+
+A certain number of parameters can be parametrised to match realistic configurations. The size of firms can in practice be approximated by a power law for the largest sizes of the distribution \citep{growiec2008size}. Therefore, we distribute $S_k$ following a rank-size law $S_k = S_0 \cdot k^{-\alpha_S}$ where indices are in decreasing size order, $S_0$ is the size of the largest firm and $\alpha_S$ the level of hierarchy. Locations of firms are taken randomly in $\left[0 ; 100 \right]^2$, such that the order of magnitude for the $d_E$ is in the same interval (corresponding to realistic sizes of urban regions where clusters are generally located). Initial employee genomes are initialised randomly in $[-10 ; 10]$ and the initial product and corresponding fitness are chosen randomly among employees.
+
+Regarding the fitness landscape, we work on an particular implementation using a function difficult to optimise. We work with a generalised Rastrigin function, that we define here as
+\[
+y_(\vec{x}) = - \sum_{i,j} m_{ij} \left[x_i^2 - 10 \cos\left(2 \pi x_i\right) \right]
+\]
+where $m_{ij}$ is a random uniform static matrix of size $G \times G$ and with coefficient in $[0;1]$, capturing the random fitness landscape used by  \cite{ma2005agent}, and the rest is the classic Rastrigin function.
+
+We furthermore fix a certain number of parameters which can reasonably correspond to real world values. We take medium-sized companies by taking $S_0 = 100$ and a number of firms $N_f = 10$, corresponding to a medium-sized cluster, such as in the case of several start-ups working in digital services. We fix the genome size at $G = 10$ to avoid exploring too large dimensional spaces. We run the model with $t_f = 100$, corresponding to a magnitude of 10 years if one time steps is roughly one month. The rest of the parameters are left free and will be explored in the numerical experiments.
+
+\section{Results}
+
+
+
+%%%%%%%%%%%%%
+\begin{table*}[t]
+%\begin{adjustwidth}{-2.25in}{0in}
+\caption{Saltelli sensitivity indices, for indicators at $t_f$ in rows and parameters in columns. We give for each pair the first order index (F) and the total order index (T). Non-significant values were assimilated to 0.\label{tab:gsa}}
+\resizebox{\linewidth}{!}{  
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+ & \multicolumn{2}{|c|}{$\alpha_S$} & \multicolumn{2}{|c|}{$p_C$} & \multicolumn{2}{|c|}{$s_C$} & \multicolumn{2}{|c|}{$p_M$} & \multicolumn{2}{|c|}{$x_M$} & \multicolumn{2}{|c|}{$s_P$} & \multicolumn{2}{|c|}{$p_E$} & \multicolumn{2}{|c|}{$d_E$} & \multicolumn{2}{|c|}{seed}  \\
+ & F & T & F & T & F & T & F & T & F & T & F & T & F & T & F & T & F & T \\
+ \hline
+$b$ & 0.001 & 0.002 & 0.001 & 0.003 & 9e-4 & 0.002 & 0.41 & 0.75 & 0.17 & 0.52 & 0.03 & 0.13 & 5e-4 & 0.002 & 9e-4 & 0.002 & 0.003 & 0.007\\
+$\bar{f}$ & 0.02 & 0.07 & 6e-4 & 0.002 & 0.0 & 0.003 & 0.36 & 0.69 & 0.21 & 0.55 & 0.02 & 0.008 & 0.0 & 0.004 & 4e-4 & 0.004 & 8e-4 & 0.007\\
+$\Delta f$ & 7e-4 & 0.56 & 0.0 & 0.9 & 0.0 & 0.0 & 0.003 & 0.0 & 0.0 & 0.24 & 0.0 & 0.48 & 0.0 & 0.18 & 0.0 & 0.17 & 0.0 & 0.0 \\
+$\mathcal{E}_f$ & 0.14 & 0.64 & 0.0 & 0.44 & 0.27 & 0.36 & 0.48  & 0.84 & 0.014 & 0.35 & 0.23 & 0.41 & 0.16 & 0.39 & 0.0 & 0.40 & 0.05 & 0.46 \\
+$d$ & 0.007 & 0.13 & 0.001 & 0.04 & 0.01 &  0.1 &  0.45  & 0.7 & 0.21 & 0.42  & 0.0  & 0.1 & 0.003 & 0.09 & 0.006 &  0.09 & 0.006 & 0.05 \\\hline
+\end{tabular}
+}
+%\end{adjustwidth}
+\end{table*}
+%%%%%%%%%%%%%
+
+
+% baseline scenario: only one firm - always compare to it?
+%  -> not necessary, compare runs between them, without interactions ~ isolated firms of different sizes, similar
+
+% Experiments:
+%  - Stochasticity: LHS 100 points, 1000 runs each
+%  - grid exploration: detail on gravity + interaction proba (focus on informal knowledge flows)
+%  - global sensitivity analysis
+%  - optimisation? -> maximise diversity and average innovation fitness, not the best
+%  - diversity? not interesting
+
+% open anonymous repo if time!
+
+The model is implemented in \texttt{scala} for performance purposes. Simulations and design of experiments are achieved using the software OpenMOLE for model exploration and validation \citep{reuillon2013openmole}, which provides seamless model embedding, simple access to high performance computing infrastructures and state-of-the-art model sensitivity analysis and validation techniques.
+
+Explored parameter space corresponds to, when not specified otherwise, the following parameters and ranges: firm size hierarchy $\alpha_S \in [0.1 ; 2.0]$, crossover probability $p_C \in [0 ; 1]$, crossover share $s_C \in [0 ; 1]$, mutation probability $p_M \in [0 ; 1]$, mutation amplitude $x_M \in [0 ; 2]$, product work share $s_P \in [0 ; 1]$, interaction probability $p_E \in [0 ; 1e-4]$ (this highest bound gives already a considerable mixing of ideas leading to a total uniformity of products), and distance decay $d_E \in [1 ; 100]$.
+
+
+
+%%%%%%%%%%%%%%%%%%
+\begin{figure*}[H]
+\begin{center}
+\includegraphics[width=0.9\linewidth]{figures/averageFitness-distanceDecay_color-interactionProba_facet-crossOverShare-firmSizeScaling_crossOverProba0.5.png}\\
+\includegraphics[width=0.9\linewidth]{figures/diversity-distanceDecay_color-interactionProba_facet-crossOverShare-firmSizeScaling_crossOverProba0.5.png}\\
+\caption{Behavior of average fitness (top plot) and product diversity (bottom plot), as a function of distance decay $d_E$. We plot raw replication points and smoothed average values, for different values of interaction probability (color scale), and for varying firm size hierarchy $\alpha_S$ (columns) and crossover share $s_C$ (rows). Both plots are shown for $p_C = 0.5$, with no significant qualitative change for $p_C = 0.25$.}
+\label{fig:fig1}
+\end{center}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%
+\begin{figure*}[H]
+\begin{center}
+\includegraphics[width=0.48\linewidth]{figures/paretoDiversity-Fitness_colorcurrentProductShare.png}
+\includegraphics[width=0.48\linewidth]{figures/paretoDiversity-Fitness_colorinteractionProba.png}\\
+\caption{Pareto fronts between average fitness and diversity, obtained with a NSGA2 bi-objective optimisation algorithm. Point size gives the number of stochastic samples, while point color gives product share $s_P$ for the left plot and interaction probability $p_E$ for the right plot.}
+\label{fig:fig2}
+\end{center}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Statistical convergence}
+
+We first proceed to an internal validation experiment, aimed at testing whether model outputs are robust to stochasticity, or in other words if they exhibit good statistical convergence properties. We sample 100 parameter points using a Latin Hypercube Sampling \citep{giunta2003overview}, and run 1000 replications of the model for each parameter point. This large number of replications is first necessary to estimate the statistical properties of indicators.
+
+We first look at the variability of indicators, looking at Sharpe ratios defined as $\mu \left[ I \right] / \sigma \left[I \right]$ which $\mu$ and $\sigma$ estimators of mean (resp. variance) for the indicator $I$. Most indicators, including best and average fitness, fitness entropy and diversity, exhibit a low variability with the first quartile of Sharpe ratios larger than 4 across all parameter points. Fitness relative difference is more stochastic with a median of 1.48. Altogether, indicators have thus a low variability.
+
+We then investigate how to discriminate two estimated average indicator values. A relative distance between averages is given by $2 \cdot \frac{\mu \left[ I \right] + \mu \left[ J \right]}{\sigma \left[I \right]+ \sigma \left[J \right]}$, for indicators $I,J$ and estimated across all pairs of parameter points. This value is high for best and average fitness (first quartile at 6.8 and 9.9), low for inequalities (median at 2.5 for relative difference and 0.56 for entropy), and relatively high for diversity (first quartile at 2.8). In the case of normal distributions, a confidence interval of size $\sigma/2$ is obtained with 64 repetitions (as confidence interval size is $2\cdot 1.96\cdot \sigma / \sqrt{n}$), so we run our experiments with $n=100$ to ensure a proper separation of indicator values.
+
+
+\subsection{Global sensitivity analysis}
+
+
+% total order
+%output,firmSizeScaling,crossOverProba,crossOverShare,mutationProba,mutationAmplitude,currentProductShare,interactionProba,distanceDecay,replication
+
+%
+%diversity,0.13411372461741436,0.0466065893924433660.
+
+
+
+
+We then proceed to a global sensitivity analysis to investigate the respective role of parameters in terms of indicators variance. This technique described by \cite{saltelli2008global} provides aggregate measures of parameter relative importance, both at the first order (all other parameters being fixed) and also capturing interaction effects with other parameters (total order). We take $N = 10,000$ design points for the estimation. Results of sensitivity indices estimation are shown in Table~\ref{tab:gsa}. We find that the size distribution of firms influences fitness inequality and diversity, but not performance. Crossover parameters mostly influence the entropy of fitness. The parameter with most influence overall is mutation probability, with 3 indicators being significantly changed. We will fix this parameter in the following to ensure a refined exploration, focusing on second order effects. Share of product adoption within the firm $s_P$ has a significant total order influence on best fitness, what may correspond to the fact that this parameter sometimes induces innovation locks through the loss of diversity. Spatial interaction parameters $p_E$ and $d_E$ influence strongly inequality but not diversity, although some diversity reduction could have been expected from exchanges. Finally, we confirm the low sensitivity to stochastic noise as all indicators have low indices with respect to the random seed. Altogether, this global sensitivity analysis confirms that all mechanisms play a role and that they interact in a complex manner.
+
+
+
+
+\subsection{Parameter space exploration}
+
+
+
+
+% 11*4*2*2*3 = 528 param points -> ok pour 100/points (moins que le stoch!)
+
+We now turn to a more targeted exploration of the parameter space to discuss model behavior. We choose to fix mutation parameters in order to focus on the role of exchanges and geography. We therefore take $p_M = 0.01$, $x_M = 1$. We also fix current product share, as it is similarly a specific parameter of the genetic algorithm, and in terms of thematic interpretation is internal to firms. We take an intermediate value of $s_P = 0.5$. The crossover parameter $s_C$ is in contrary involved in informal knowledge exchanges. We explore a coarse grid for $s_C \in \{0.25 ; 0.5\}$, for $p_C \in \{0.25 ; 0.5\}$ and for $\alpha_S \in \{0.1 : 1.0 : 2.0\}$, combined to a more refined grid for exchange parameters: $\log p_E \in \{-7 ; -6 ; -5 ; -4\}$ and $d_E$ varying from 1 to 101 with a step of $10$. We run 100 model replications for each parameter point, corresponding to a total of 52,800 model runs.
+
+We show the behavior of main indicators in Fig.~\ref{fig:fig1}. Both average fitness and product diversity exhibit a similar behavior. When distance decays increases, i.e. when the integration of the firm cluster in terms of informal knowledge is strengthen, innovation is improved as the average fitness increases significantly. This effect disappears for low interaction probabilities, recalling that the informal knowledge flow is the outcome of these two processes of social intensity and spatial interactions. The increase in fitness is at the detriment of product diversity. When comparing columns, we find that unequal firm sizes are non optimal, as highest fitness values are obtained for the lowest hierarchy. The crossover share does not change much indicator behavior, except for diversity at high interaction probabilities (middle column of bottom plot).
+
+It is interesting to note that changing $p_E$ leads to a qualitative change in model regime: low values mostly imply a steady increase of fitness (decrease of diversity), while intense interaction lead to a sharp transition followed by a plateau. This implies a change in the way to conceive clusters depending on their geographical situation: proximity will be beneficial more quickly in urban environments compared to rural settings for example.
+
+
+
+
+\subsection{Optimisation}
+
+We finally run a bi-objective optimisation algorithm, to investigate the potential compromise between innovation in terms of fitness and product diversity. Indeed, diversity is crucial to maintain for a longer term robustness and resilience of the socio-technical system \citep{reinmoeller2005link}. We use a NSGA2 genetic algorithm with two minimisation objectives (opposite of diversity and opposite of average fitness). We use the OpenMOLE implementation of a steady state NSGA2, with a population of 200 individuals, for 10,000 generations.
+
+We show the optimisation results in Fig.~\ref{fig:fig2}. We find a Pareto front between the two objectives, confirming the compromise between global performance and diversity. Both extremities of the front are rather steep/flat, meaning that a reduced number of points provide an effective compromise. Investigating the values of some parameters, we find a similar U-shape behavior of product share $s_P$ and interaction probability $p_E$: high values for these parameter put the points on extremities of the front. This is an interesting behavior as quite unexpected from an intuitive point of view: increasing interactions should mix more ideas and decrease diversity - which is true, but also includes the opposite, i.e. optimal diversity when interaction are high. This is similar with product share, but with different underlying processes: a too high share could have been expected to induce technological locks. This shows altogether the complexity of interacting processes within firm clusters, leading to the emergence of innovations.
+
+
+
+
+\section{Discussion}
+
+% generalisation: multiscale - innovation diffusion between urban areas
+% telework not accounted for - cite Duranton tyranny of proximity \cite{duranton1999distance}; Anto telework? \cite{bergeaud4015066telework}
+
+
+Our stylised results can be linked with documented empirical facts. The innovation success of a firm cluster relies on a strong interplay between local interactions and global integration \citep{fitjar2014local}. Put in another way, local interactions are not sufficient to drive innovation. However, given the sharp transitions exhibited by our model when increasing local knowledge flows, we can suggest that these may be necessary, and that a firm in complete isolation would have difficulties to innovate (whether knowledge flows can occur without being local or informal is an other question out of the scope of our work). Furthermore, although empirical stylised facts are not unanimously agreed on, there exists evidence that cluster size may lead to ``agglomeration diseconomies'', in other words that clustering becomes detrimental above a certain size \cite{folta2006geographic}. We do not obtain this aspect, since the effect of distance and interaction probability are always increasing in terms of fitness. However, the complex effects on diversity may in some cases be interpreted as detrimental.
+
+Numerous extensions and applications are open at this point. The several stylised facts contained within the conceptual model introduced by \cite{gnyawali2013complementary} may be the basis for more general models which would need to reproduce these facts. The combination of this model with urban innovation diffusion models such as \cite{raimbault2020model} could provide a multiscale model of innovation clusters. Exploring other instances of fitness landscapes is also crucial to assess the robustness of our results. Regarding aspects that were not taken into account, teleworking can significantly change the role of informal knowledge exchanges and the geography of clusters. It was shown recently to influence the productivity of firms \citep{bergeaud4015066telework} and is one component of what \cite{duranton1999distance} call the ``tyranny of proximity'': face-to-face contacts have a novel importance in that context. Furthermore, this model could be parametrised and calibrated on real world data, including patent data for innovation and real cluster case studies. Finally, this model could have potential policy applications, to plan and manage company clusters to foster innovation in the context of sustainability.
+
+To conclude, we have introduced and explored a simple instance of an innovation model, focused on informal knowledge flows and the geography of clusters. The model was explored for a particular instance of fitness landscape. We find a strong effect of these with a sharp transition of innovation performance, and a compromise between diversity and innovation. These results and the model can be the basis of future empirical, theoretical and modeling research, in link with policy applications.
 
 
 %\section{Acknowledgements}
