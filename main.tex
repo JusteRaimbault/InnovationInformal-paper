@@ -170,7 +170,7 @@ Firm clusters are seen as having a positive effect on innovations, what can be i
 %  - add to dicussion or contributions: realistic settings
 %  - add key takeover: abstract, into, discussion
 %  - pb of factors/assumption contributing: cf sensitivity analysis and exploration: add remark on model complexity? - fixed assumption vs params
-%  - possibly diagram describing model?
+%  X possibly diagram describing model? -> not readable without iterative unveiling -> for presentation
 
 % typos
 %  X “Firm cluster in terms of informal knowledge is strengthen,” -> “… is strengthened,”
@@ -184,14 +184,14 @@ Firm clusters are seen as having a positive effect on innovations, what can be i
 %  X  "periruban" -> "periurban"
 %  X  In page 3, left column, last equation: the expression after "exp" should be put in a pair of parentheses.
 %  X  "1e-4" -> Is this "10^{-4}" ?
-%  -  In Figure 1, the color difference between three darker lines was too subtle and they were hard to distinguish. -> fig1 redrawn with discrete colors
-%  -  "It is interesting to *not* that" -> "... note ..."
-%  -  "these parameter" -> "these parameters"
-%  -  "... a certain size Folta et al. (2006)." -> "... a certain size (Folta et al. 2006)."
-%  -  Figure 2 should be moved to before the References.
-%   - in point 1 on page 3, are exchanges purely within firms, but never between agents of different firms?
-%   - in point 3, you need to put brackets around the argument of the     exponential
-%   - the dissimilarity index is high if the p are very diverse?
+%  X  In Figure 1, the color difference between three darker lines was too subtle and they were hard to distinguish. -> fig1 redrawn with discrete colors
+%  X  "It is interesting to *not* that" -> "... note ..."
+%  X  "these parameter" -> "these parameters"
+%  X  "... a certain size Folta et al. (2006)." -> "... a certain size (Folta et al. 2006)."
+%  X  Figure 2 should be moved to before the References.
+%  X  in point 1 on page 3, are exchanges purely within firms, but never between agents of different firms?
+%  X  in point 3, you need to put brackets around the argument of the     exponential
+%  X  the dissimilarity index is high if the p are very diverse?
 %   - on page 4, end of first paragraph of Results; here I noticed that I do not really have the big picture of what you are trying to model
 %   - what does Figure 1 tell us? The caption is not very helpful in understanding what the fitness variations over parameters and time tell us.
 %   - page 6: "When distance decays increases, i.e. when the integration of the firm cluster in terms of informal knowledge is strengthen, innovation is improved as the average fitness increases significantly" - you mean "strengthened"? Also, this outcome is very specific to the model you chose, including the distances (whose rationale is not entirely clear). How generalizable is that?
@@ -202,7 +202,7 @@ Firm clusters are seen as having a positive effect on innovations, what can be i
 
 % for communication at conf
 %  - insist on openmole in presentation + interdisciplinarity? (scope rev 1, comment rev 2); pub exmodelo? (book not available yet!)
-
+%  - model schema in ietrative steps
 
 \section{Introduction}
 
@@ -248,7 +248,7 @@ Starting from an initial state at $t = 0$, the model proceeds iteratively to evo
 \begin{enumerate}
     \item Ideas are exchanged within firms, corresponding to the core of the genetic algorithm capturing innovation. Each employee has a fixed probability $p_C$ of realising a crossover with another one. Following a random draw, if this is realised, one other employee is selected at random, and the current employee copies a fixed share $s_C$ of the other genome (obtained in practice with a random draw of probability $s_C$ for each gene). The update is done synchronously so that no propagation can occur within one time step. The exchange is not symmetric (reflecting the asymmetry of idea exchanges in real life), but each employee gets to renew its ideas. Genomes are then mutated with a probability $p_M$ (at the gene level for all employees), and mutations correspond to a uniform random increment $m \in \left[ -x_M/2 ; x_M/2 \right]$ where $x_M$ is a parameter giving the amplitude of the mutation.
     \item New ideas are tried by employees, in other words the fitness function $y$ is evaluated for each genome $y_{ki} = y(e_{ki})$. Within each company, the next product is selected as the one maximising the fitness: $p_k (t) = \textrm{argmax}_i y_{ki}$ and the corresponding fitness value is taken as $y_k (t)$. At this stage, the analogy with the genetic algorithm is slightly modified to reflect actual research processes within firms: a fixed share of employees $s_P$ of the firm is randomly chosen to work on the product during the next cycle, and thus update their genome as the product genome $e_{ik} = p_k$. This leads to a loss of diversity which may be detrimental to a genetic algorithm with the sole aim of optimisation, but this is not the purpose of our model which is to capture actual innovation processes in a stylised way.
-    \item Informal knowledge flows occur between firms, in practice being carried by local social networks of employees and their daily activities within the geographical area of the cluster. For any pair of employees $(e_{k_i i}, e_{k_j j})$ from different firms $k_i,k_j$, a probability of interacting is given by
+    \item Informal knowledge flows occur between firms, in practice being carried by local social networks of employees and their daily activities within the geographical area of the cluster. We assume informal flows within firms are indistinguishable from formal work exchanges accounted for at the first step, and this step only captures inter-firms interactions. For any pair of employees $(e_{k_i i}, e_{k_j j})$ from distinct firms $k_i,k_j$, a probability of interacting is given by
     \[
     p_{ij} = p_E \cdot \exp{\left( - d(k_i,k_j) / d_E \right)}
     \]
@@ -263,10 +263,12 @@ Starting from an initial state at $t = 0$, the model proceeds iteratively to evo
 \subsection{Model indicators}
 
 We study various aspect to quantify model dynamics and outcomes. First, innovation utility is measured through fitness values. At each time step, we consider (i) $b(t) = \max_k y_k (t)$ the best fitness value across all firms, and (ii) $\bar{f} (t)$ the average fitness value across firms. We then capture economic inequality between firms, both through the relative fitness difference $\Delta f$ between the best and the worst performing company, and with the entropy $\mathcal{E}_f$ of the distribution of fitness. Finally, we capture product diversity at the genotype level (which is complementary to previous inequality indicators at the phenotype level), using an average dissimilarity index obtained with cosine similarity:
+
 \[
 d(t) = \frac{1}{2 \cdot N_f \cdot (N_f - 1)} \sum_{k \neq l} \left(1 - \frac{p_k (t)\cdot p_l (t)}{\left||p_k (t)\right|| \cdot \left||p_l (t)\right||}\right)
 \]
 
+The more diverse phenotypes are, the higher this diversity index will be.
 
 \subsection{Model setup}
 
@@ -285,7 +287,7 @@ We furthermore fix a certain number of parameters which can reasonably correspon
 
 
 %%%%%%%%%%%%%
-\begin{table*}[t]
+\begin{table*}[ht!]
 %\begin{adjustwidth}{-2.25in}{0in}
 \caption{Saltelli sensitivity indices, for indicators at $t_f$ in rows and parameters in columns. We give for each pair the first order index (F) and the total order index (T). Non-significant values were assimilated to 0.\label{tab:gsa}}
 \resizebox{\linewidth}{!}{  
@@ -294,9 +296,9 @@ We furthermore fix a certain number of parameters which can reasonably correspon
  & \multicolumn{2}{|c|}{$\alpha_S$} & \multicolumn{2}{|c|}{$p_C$} & \multicolumn{2}{|c|}{$s_C$} & \multicolumn{2}{|c|}{$p_M$} & \multicolumn{2}{|c|}{$x_M$} & \multicolumn{2}{|c|}{$s_P$} & \multicolumn{2}{|c|}{$p_E$} & \multicolumn{2}{|c|}{$d_E$} & \multicolumn{2}{|c|}{seed}  \\
  & F & T & F & T & F & T & F & T & F & T & F & T & F & T & F & T & F & T \\
  \hline
-$b$ & 0.001 & 0.002 & 0.001 & 0.003 & 9\cdot 10^{-4} & 0.002 & 0.41 & 0.75 & 0.17 & 0.52 & 0.03 & 0.13 & 5\cdot 10^{-4} & 0.002 & 9\cdot 10^{-4} & 0.002 & 0.003 & 0.007\\
-$\bar{f}$ & 0.02 & 0.07 & 6\cdot 10^{-4} & 0.002 & 0.0 & 0.003 & 0.36 & 0.69 & 0.21 & 0.55 & 0.02 & 0.008 & 0.0 & 0.004 & 4\cdot 10^{-4} & 0.004 & 8\cdot 10^{-4} & 0.007\\
-$\Delta f$ & 7\cdot 10^{-4} & 0.56 & 0.0 & 0.9 & 0.0 & 0.0 & 0.003 & 0.0 & 0.0 & 0.24 & 0.0 & 0.48 & 0.0 & 0.18 & 0.0 & 0.17 & 0.0 & 0.0 \\
+$b$ & 0.001 & 0.002 & 0.001 & 0.003 & $9\cdot 10^{-4}$ & 0.002 & 0.41 & 0.75 & 0.17 & 0.52 & 0.03 & 0.13 & $5\cdot 10^{-4}$ & 0.002 & $9\cdot 10^{-4}$ & 0.002 & 0.003 & 0.007\\
+$\bar{f}$ & 0.02 & 0.07 & $6\cdot 10^{-4}$ & 0.002 & 0.0 & 0.003 & 0.36 & 0.69 & 0.21 & 0.55 & 0.02 & 0.008 & 0.0 & 0.004 & $4\cdot 10^{-4}$ & 0.004 & $8\cdot 10^{-4}$ & 0.007\\
+$\Delta f$ & $7\cdot 10^{-4}$ & 0.56 & 0.0 & 0.9 & 0.0 & 0.0 & 0.003 & 0.0 & 0.0 & 0.24 & 0.0 & 0.48 & 0.0 & 0.18 & 0.0 & 0.17 & 0.0 & 0.0 \\
 $\mathcal{E}_f$ & 0.14 & 0.64 & 0.0 & 0.44 & 0.27 & 0.36 & 0.48  & 0.84 & 0.014 & 0.35 & 0.23 & 0.41 & 0.16 & 0.39 & 0.0 & 0.40 & 0.05 & 0.46 \\
 $d$ & 0.007 & 0.13 & 0.001 & 0.04 & 0.01 &  0.1 &  0.45  & 0.7 & 0.21 & 0.42  & 0.0  & 0.1 & 0.003 & 0.09 & 0.006 &  0.09 & 0.006 & 0.05 \\\hline
 \end{tabular}
@@ -304,6 +306,7 @@ $d$ & 0.007 & 0.13 & 0.001 & 0.04 & 0.01 &  0.1 &  0.45  & 0.7 & 0.21 & 0.42  & 
 %\end{adjustwidth}
 \end{table*}
 %%%%%%%%%%%%%
+
 
 
 % baseline scenario: only one firm - always compare to it?
@@ -339,7 +342,7 @@ Explored parameter space corresponds to, when not specified otherwise, the follo
 %%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%
-\begin{figure*}[H]
+\begin{figure*}[h!]
 \begin{center}
 \includegraphics[width=0.48\linewidth]{figures/paretoDiversity-Fitness_colorcurrentProductShare.png}
 \includegraphics[width=0.48\linewidth]{figures/paretoDiversity-Fitness_colorinteractionProba.png}\\
@@ -396,7 +399,7 @@ It is interesting to note that changing $p_E$ leads to a qualitative change in m
 
 We finally run a bi-objective optimisation algorithm, to investigate the potential compromise between innovation in terms of fitness and product diversity. Indeed, diversity is crucial to maintain for a longer term robustness and resilience of the socio-technical system \citep{reinmoeller2005link}. We use a NSGA2 genetic algorithm with two minimisation objectives (opposite of diversity and opposite of average fitness). We use the OpenMOLE implementation of a steady state NSGA2, with a population of 200 individuals, for 10,000 generations.
 
-We show the optimisation results in Fig.~\ref{fig:fig2}. We find a Pareto front between the two objectives, confirming the compromise between global performance and diversity. Both extremities of the front are rather steep/flat, meaning that a reduced number of points provide an effective compromise. Investigating the values of some parameters, we find a similar U-shape behavior of product share $s_P$ and interaction probability $p_E$: high values for these parameter put the points on extremities of the front. This is an interesting behavior as quite unexpected from an intuitive point of view: increasing interactions should mix more ideas and decrease diversity - which is true, but also includes the opposite, i.e. optimal diversity when interaction are high. This is similar with product share, but with different underlying processes: a too high share could have been expected to induce technological locks. This shows altogether the complexity of interacting processes within firm clusters, leading to the emergence of innovations.
+We show the optimisation results in Fig.~\ref{fig:fig2}. We find a Pareto front between the two objectives, confirming the compromise between global performance and diversity. Both extremities of the front are rather steep/flat, meaning that a reduced number of points provide an effective compromise. Investigating the values of some parameters, we find a similar U-shape behavior of product share $s_P$ and interaction probability $p_E$: high values for these parameters put the points on extremities of the front. This is an interesting behavior as quite unexpected from an intuitive point of view: increasing interactions should mix more ideas and decrease diversity - which is true, but also includes the opposite, i.e. optimal diversity when interaction are high. This is similar with product share, but with different underlying processes: a too high share could have been expected to induce technological locks. This shows altogether the complexity of interacting processes within firm clusters, leading to the emergence of innovations.
 
 
 
@@ -407,9 +410,9 @@ We show the optimisation results in Fig.~\ref{fig:fig2}. We find a Pareto front 
 % telework not accounted for - cite Duranton tyranny of proximity \cite{duranton1999distance}; Anto telework? \cite{bergeaud4015066telework}
 
 
-Our stylised results can be linked with documented empirical facts. The innovation success of a firm cluster relies on a strong interplay between local interactions and global integration \citep{fitjar2014local}. Put in another way, local interactions are not sufficient to drive innovation. However, given the sharp transitions exhibited by our model when increasing local knowledge flows, we can suggest that these may be necessary, and that a firm in complete isolation would have difficulties to innovate (whether knowledge flows can occur without being local or informal is another question out of the scope of our work). Furthermore, although empirical stylised facts are not unanimously agreed on, there exists evidence that cluster size may lead to ``agglomeration diseconomies'', in other words that clustering becomes detrimental above a certain size \cite{folta2006geographic}. We do not obtain this aspect, since the effect of distance and interaction probability are always increasing in terms of fitness. However, the complex effects on diversity may in some cases be interpreted as detrimental.
+Our stylised results can be linked with documented empirical facts. The innovation success of a firm cluster relies on a strong interplay between local interactions and global integration \citep{fitjar2014local}. Put in another way, local interactions are not sufficient to drive innovation. However, given the sharp transitions exhibited by our model when increasing local knowledge flows, we can suggest that these may be necessary, and that a firm in complete isolation would have difficulties to innovate (whether knowledge flows can occur without being local or informal is another question out of the scope of our work). Furthermore, although empirical stylised facts are not unanimously agreed on, there exists evidence that cluster size may lead to ``agglomeration diseconomies'', in other words that clustering becomes detrimental above a certain size \citep{folta2006geographic}. We do not obtain this aspect, since the effect of distance and interaction probability are always increasing in terms of fitness. However, the complex effects on diversity may in some cases be interpreted as detrimental.
 
-Numerous extensions and applications are open at this point. The several stylised facts contained within the conceptual model introduced by \cite{gnyawali2013complementary} may be the basis for more general models which would need to reproduce these facts. The combination of this model with urban innovation diffusion models such as \cite{raimbault2020model} could provide a multiscale model of innovation clusters. Exploring other instances of fitness landscapes is also crucial to assess the robustness of our results. Regarding aspects that were not taken into account, teleworking can significantly change the role of informal knowledge exchanges and the geography of clusters. It was shown recently to influence the productivity of firms \citep{bergeaud4015066telework} and is one component of what \cite{duranton1999distance} calls the ``tyranny of proximity'': face-to-face contacts have a novel importance in that context. Furthermore, this model could be parametrised and calibrated on real world data, including patent data for innovation and real cluster case studies. Finally, this model could have potential policy applications, to plan and manage company clusters to foster innovation in the context of sustainability.
+Numerous extensions and applications are open at this point. The several stylised facts contained within the conceptual model introduced by \cite{gnyawali2013complementary} may be the basis for more general models which would need to reproduce these facts. The combination of this model with urban innovation diffusion models such as \citep{raimbault2020model} could provide a multiscale model of innovation clusters. Exploring other instances of fitness landscapes is also crucial to assess the robustness of our results. Regarding aspects that were not taken into account, teleworking can significantly change the role of informal knowledge exchanges and the geography of clusters. It was shown recently to influence the productivity of firms \citep{bergeaud4015066telework} and is one component of what \cite{duranton1999distance} calls the ``tyranny of proximity'': face-to-face contacts have a novel importance in that context. Furthermore, this model could be parametrised and calibrated on real world data, including patent data for innovation and real cluster case studies. Finally, this model could have potential policy applications, to plan and manage company clusters to foster innovation in the context of sustainability.
 
 To conclude, we have introduced and explored a simple instance of an innovation model, focused on informal knowledge flows and the geography of clusters. The model was explored for a particular instance of fitness landscape. We find a strong effect of these with a sharp transition of innovation performance, and a compromise between diversity and innovation. These results and the model can be the basis of future empirical, theoretical and modeling research, in link with policy applications.
 
