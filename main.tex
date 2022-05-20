@@ -5,6 +5,11 @@
 
 \title{Innovation and informal knowledge exchanges between firms}
 
+\author{Juste Raimbault$^{1,2,3,4}$\\
+\mbox{}\\
+$^1$California Institute of Technology, Pasadena, CA 91125 \\
+$^2$California State University, Northridge, CA 91330 \\
+juste.raimbault@polytechnique.edu}
 
 \begin{document}
 \maketitle
@@ -21,6 +26,183 @@ Firm clusters are seen as having a positive effect on innovations, what can be i
 
 
 % camera ready guidelines https://www.2022.alife.org/open-calls
+% 8 pages without refs and without author details
+
+% SUBMISSION: 128
+%TITLE: Innovation and informal knowledge exchanges between firms
+%-------------------------  METAREVIEW  ------------------------
+%All the reviewers have raised important points to be addressed. With that in mind, I believe this manuscript should be accepted after taking into account the reviewers' feedback.
+
+%----------------------- REVIEW 1 ---------------------
+%SUBMISSION: 128
+%TITLE: Innovation and informal knowledge exchanges between firms
+%AUTHORS: Juste Raimbault
+%----------- Overall evaluation -----------
+%SCORE: 1 (weak accept)
+%----- TEXT:
+%1) Strengths of the submitted work
+%In my view, perhaps the greatest strength of this work is the robust and rigorous modeling methodology used. I am particularly impressed by the systematic, principled, and well-explained approach to exploring the model’s parameter space.
+%The literature review and introduction are informative and well-balanced, particularly with respect to acknowledging roles of social and cultural evolution alongside technological innovation.
+%2) Weaknesses of the submitted work, and suggestions for improving on these weaknesses,
+
+%It would have been rewarding to hear more direct commentary using the model to build intuition for (particularly any counterintuitive) dynamics that may be at play. The observation of maximal diversity when interactions are high stands out as a particularly intriguing result to explore and comment on further.
+%  -> add plots params pareto front, discuss ushape diversity - interaction proba, discuss profile application
+
+%If possible, source code should be provided. -> add link git and data
+
+%3) Overall evaluation of the work for the Artificial Life Conference (quality and scope)
+%The methodology that went into the work stands out as a particularly valuable contribution to the Artificial Life conference venue. This work’s adaptation and modification of genetic algorithm models is intriguing and instructive. The work’s strong modeling methodology, particularly the paper’s lucid exposition of this methodology, would also benefit the artificial life audience. Although exploration of the model yields some interesting findings, they may be of even greater interest in economic and sociological venues.
+% -> insist on openmole in presentation
+
+%4) Eratta
+%“Firm cluster in terms of informal knowledge is strengthen,” -> “… is strengthened,”
+%“It is interesting to not that changing pE leads to a…” -> “It is interesting to note that…”
+%Misaligned (appears to be in subscript when it shouldn’t be) parenthesis in generalized Ragstrin definition
+%Y(\vec{x}) = - \Sum …
+%----------- Novelty/Originality -----------
+%SCORE: 4 (Brand new take on existing concepts)
+%----------- Writing clarity -----------
+%SCORE: 5 (Eloquently written and enjoyable to read)
+%----------- Thoroughness of Literature Review -----------
+%SCORE: 4 (Describes main related projects/experiments, including needed pointers)
+%----------- Thoroughness of Methods -----------
+%SCORE: 4 (Clear methods that cover all major details)
+%----------- Relevance to Artificial Life -----------
+%SCORE: 3 (Topic can be considered relevant to Artificial Life or of interest to some ALife researchers)
+%----------- Overall Quality of Work -----------
+%SCORE: 4 (Solid quality, probably accept)
+
+
+%----------------------- REVIEW 2 ---------------------
+%SUBMISSION: 128
+%TITLE: Innovation and informal knowledge exchanges between firms
+%AUTHORS: Juste Raimbault
+%----------- Overall evaluation -----------
+%SCORE: 2 (accept)
+%----- TEXT:
+%In this paper, the author(s) proposed and numerically analyzed an agent-based model of spatially distributed firms in which employees act as the carrier of ideas and those ideas evolve through a GA-like exploration and optimization process. The numerical results showed the effects of each parameter as well as the tradeoff between the fitness and the diversity of ideas generated.
+%I like this work very much, especially because of the approach to treat innovation processes as the evolution of ideas in a distributed environment (i.e., people in social settings). I disclose my identity here (Hiroki Sayama) because I am also an active researcher working on this approach and have published related models and experiments in the ALife and Complexity areas, e.g.:
+%[1] Sayama, H., & Dionne, S. D. (2015). Studying collective human decision making and creativity with evolutionary computation. Artificial Life, 21(3), 379-393.
+%[2] Dionne, S. D., Sayama, H., & Yammarino, F. J. (2019). Diversity and social network structure in collective decision making: evolutionary perspectives with agent-based simulations. Complexity, 7591072.
+% -> add refs
+%  rq: this perspective (generalisation) // noosphere Morin! treat innovation processes as the evolution of ideas in a distributed environment (i.e., people in social settings
+%In the above papers, we also studied the collective innovation and decision making processes (search and optimization in a complex landscape) using a similar framework of idea evolution, and we evaluated the utility (fitness) and the diversity of resulting final ideas. In [2], we compared the effects of underlying social network structure, comparing small-world (spatially clustered), random, and scale-free networks, finding that the spatially clustered network structure resulted in the highest performance in finding the best solutions. Because of these past research experiences, I find this current paper particularly interesting in that they also consider the effects of spatial clusters of idea generators (firms in this paper; individuals in our previous model). I hope the author(s) find our earlier work also interesting and relevant to their model. Seeing positive effects on spatial clustering in multiple modeling studies gives us impression that we are onto something important.
+
+%Moreover, this paper is strong in that it conducts parameter sweep and sensitivity check in a rigorous, systematic manner, and also that the model captures some realism in firms' organizational structure and employee mobility, which were not present in earlier studies (including my own). Even though the author(s) mention that their model is a stylized one, I believe these realistic settings have certainly added values to this study.
+
+%The possible weaknesses of the current version of this paper include the insufficient clarity of the "key conclusions" of the study. Various results were presented and discussed, but I felt the main narrative was rather unclear with regard to the "what". Also, the paper contained several typos and mistakes, which should be corrected in the revised version (listed below).
+%  -> add key message
+
+%Overall, I very much welcome this study using the evolutionary perspective to idea exploration and innovation dynamics in human social systems. I hope this paper will inspire more ALife researchers to move in this direction.
+
+%Other minor issues:
+%* "career" -> "carrier" (at multiple places)
+%* "a evolutionary" -> "an evolutionary"
+%* At several places, the place of an inserted phrase (e.g., "for example") is not good and it blocks the flow of a sentence. This should be checked and smoothed out.
+%* "we do not aim at providing a highly realistic *nor* data-driven model" -> "... or ..."
+%* "an other" -> "another"
+%* "periruban" -> "periurban"
+%* In page 3, left column, last equation: the expression after "exp" should be put in a pair of parentheses.
+%* "1e-4" -> Is this "10^{-4}" ?
+%* In Figure 1, the color difference between three darker lines was too subtle and they were hard to distinguish.
+%* "It is interesting to *not* that" -> "... note ..."
+%* "these parameter" -> "these parameters"
+%* "... a certain size Folta et al. (2006)." -> "... a certain size (Folta et al. 2006)."
+%* Figure 2 should be moved to before the References.
+%----------- Novelty/Originality -----------
+%SCORE: 4 (Brand new take on existing concepts)
+%----------- Writing clarity -----------
+%SCORE: 3 (Mostly well written, but a few confusing portions (described in review))
+%----------- Thoroughness of Literature Review -----------
+%SCORE: 4 (Describes main related projects/experiments, including needed pointers)
+%----------- Thoroughness of Methods -----------
+%SCORE: 5 (Carefully crafted methods that appear easy to replicate and include pointers to all source code)
+%----------- Relevance to Artificial Life -----------
+%SCORE: 4 (Topic is clearly relevant to the Artificial Life community)
+%----------- Overall Quality of Work -----------
+%SCORE: 5 (Excellent quality, firm accept)
+
+
+%----------------------- REVIEW 3 ---------------------
+%SUBMISSION: 128
+%TITLE: Innovation and informal knowledge exchanges between firms
+%AUTHORS: Juste Raimbault
+%----------- Overall evaluation -----------
+%SCORE: 0 (borderline paper)
+%----- TEXT:
+%** General Comments
+%Generally, the reviewer liked the premise of this paper. Modeling innovation and knowledge exchange is an interesting application for social modeling and Alife methods. The reviewer's main issue is with the very specific and complex set of modeling assumptions and the then quite limited experimental insight. There are lots of details in the model that the reviewer was not able to follow and, what's more problematic, it is not clear how the different factors contribute and to which extent. In models that are essentially simulative it is necessary to be very tight on assumptions to be able to track down precisely where certain phenomena come from. What is also missing is the clear "So what" message. What are the main insights from this study?
+%  -> so what message: // main takeover
+%  pb of factors/assumption contributing: cf sensitivity analysis and exploration: add remark on complexity?
+
+%It might be possible to clarify some of the issues by a judicious diagram demonstrating the structure of the model.
+%** Detailed Comments
+%   - in point 1 on page 3, are exchanges purely within firms, but never between agents of different firms?
+%   - in point 3, you need to put brackets around the argument of the     exponential
+%  - the dissimilarity index is high if the p are very diverse?
+%  - on page 4, end of first paragraph of Results; here I noticed that     I do not really have the big picture of what you are trying to model
+%   - what does Figure 1 tell us? The caption is not very helpful in  understanding what the fitness variations over parameters and  time tell us.
+%   - page 6: "When distance decays increases, i.e. when the integration of the firm cluster in terms of informal knowledge is strengthen, innovation is improved as the average fitness increases significantly" - you mean "strengthened"? Also, this outcome is very specific to the model you chose, including the distances (whose rationale is not entirely clear). How generalizable is that?
+%   - "hile intense interaction lead to a sharp transition followed by a plateau" - where exactly do you see the transitions in the Figure?
+%   - "We use a NSGA2 genetic algorithm with two minimisation objectives (opposite of diversity and opposite of average fitness)." - this is unclear; why do you minimize diversity and average fitness? Or is something else happening here?
+%   - "However, given the sharp transitions exhibited by our model when increasing local knowledge flows" - which transitions precisely? What do we see there? Can we understand them?
+% - "We find a strong effect of these with a sharp transition of    innovation performance, and a compromise between diversity and     innovation" - this is really unclear and not well explained. Perhaps adding further figures might clarify matters. I am aware that a paper has limited space, but the question is how specific the model needs to be to see the effects that you are interested in.
+%----------- Novelty/Originality -----------
+%SCORE: 3 (Some new ideas or new tests of existing theory)
+%----------- Writing clarity -----------
+%SCORE: 2 (Confusing in many places, needs editing throughout)
+%----------- Thoroughness of Literature Review -----------
+%SCORE: 5 (Provides a thorough picture of related work and its context in it)
+%----------- Thoroughness of Methods -----------
+%SCORE: 4 (Clear methods that cover all major details)
+%----------- Relevance to Artificial Life -----------
+%SCORE: 4 (Topic is clearly relevant to the Artificial Life community)
+%----------- Overall Quality of Work -----------
+%SCORE: 3 (Reasonable quality, su!cient for acceptance)
+
+
+
+% revision: todo
+%  - add plots params pareto front, discuss ushape diversity - interaction proba, discuss profile algorithm application
+%  - add link git and data
+%  - add refs: [1] Sayama, H., & Dionne, S. D. (2015). Studying collective human decision making and creativity with evolutionary computation. Artificial Life, 21(3), 379-393. [2] Dionne, S. D., Sayama, H., & Yammarino, F. J. (2019). Diversity and social network structure in collective decision making: evolutionary perspectives with agent-based simulations. Complexity, 7591072.
+%  - add to discussion: role of modularity/spatial clustering (// papers Hiroki)
+%  - add to dicussion or contributions: realistic settings
+%  - add key takeover: abstract, into, discussion
+%  - pb of factors/assumption contributing: cf sensitivity analysis and exploration: add remark on model complexity? - fixed assumption vs params
+%  - possibly diagram describing model?
+
+% typos
+%  - “Firm cluster in terms of informal knowledge is strengthen,” -> “… is strengthened,”
+%  - “It is interesting to not that changing pE leads to a…” -> “It is interesting to note that…”
+%  - Misaligned (appears to be in subscript when it shouldn’t be) parenthesis in generalized Ragstrin definition Y(\vec{x}) = - \Sum …
+%  -  "career" -> "carrier" (at multiple places)
+%  - "a evolutionary" -> "an evolutionary"
+%  -  At several places, the place of an inserted phrase (e.g., "for example") is not good and it blocks the flow of a sentence. This should be checked and smoothed out.
+%  -  "we do not aim at providing a highly realistic *nor* data-driven model" -> "... or ..."
+%  -  "an other" -> "another"
+%  -  "periruban" -> "periurban"
+%  -  In page 3, left column, last equation: the expression after "exp" should be put in a pair of parentheses.
+%  -  "1e-4" -> Is this "10^{-4}" ?
+%  -  In Figure 1, the color difference between three darker lines was too subtle and they were hard to distinguish.
+%  -  "It is interesting to *not* that" -> "... note ..."
+%  -  "these parameter" -> "these parameters"
+%  -  "... a certain size Folta et al. (2006)." -> "... a certain size (Folta et al. 2006)."
+%  -  Figure 2 should be moved to before the References.
+%   - in point 1 on page 3, are exchanges purely within firms, but never between agents of different firms?
+%   - in point 3, you need to put brackets around the argument of the     exponential
+%   - the dissimilarity index is high if the p are very diverse?
+%   - on page 4, end of first paragraph of Results; here I noticed that I do not really have the big picture of what you are trying to model
+%   - what does Figure 1 tell us? The caption is not very helpful in understanding what the fitness variations over parameters and time tell us.
+%   - page 6: "When distance decays increases, i.e. when the integration of the firm cluster in terms of informal knowledge is strengthen, innovation is improved as the average fitness increases significantly" - you mean "strengthened"? Also, this outcome is very specific to the model you chose, including the distances (whose rationale is not entirely clear). How generalizable is that?
+%   - "hile intense interaction lead to a sharp transition followed by    a plateau" - where exactly do you see the transitions in the Figure?
+%   - "We use a NSGA2 genetic algorithm with two minimisation    objectives (opposite of diversity and opposite of average fitness)." - this is unclear; why do you minimize diversity and average fitness? Or is something else happening here?
+%   - "However, given the sharp transitions exhibited by our model when increasing local knowledge flows" - which transitions precisely? What do we see there? Can we understand them?
+% - "We find a strong effect of these with a sharp transition of   innovation performance, and a compromise between diversity and innovation" - this is really unclear and not well explained. Perhaps adding further figures might clarify matters. I am aware that a paper has limited space, but the question is how specific the model needs to be to see the effects that you are interested in.
+
+% for communication at conf
+%  - insist on openmole in presentation + interdisciplinarity? (scope rev 1, comment rev 2); pub exmodelo? (book not available yet!)
+
 
 \section{Introduction}
 
